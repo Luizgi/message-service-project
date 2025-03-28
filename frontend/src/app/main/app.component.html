@@ -1,0 +1,22 @@
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+     <app-message [messageVarClasse]="messageBinding"
+                  (outputMessage)="messageBinding.content = $event">
+     </app-message> <br/>
+
+     <app-message-signal [messageVarClasse]="messageBinding"
+                         (outputMessage)="messageBinding.content = $event">
+     </app-message-signal>
+    </div>
+  </div>
+</div>
+
+<div>
+  <size-app [cdTextSizeAlias]="textSize"
+            (cdTextSizeAliasChange)="textSize = $event">
+  </size-app>
+  <p [style.font-size.px] = "textSize"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quia iste. Laudantium officiis, dolor officia non dolore nobis alias dicta molestias, illum, error iusto a. Officia in et eligendi quas! </p>
+</div>
+
