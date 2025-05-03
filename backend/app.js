@@ -6,7 +6,19 @@ var appRoutes = require('./routes/app');
 
 const app = express();
 
-// view engine setup 
+// NOVO
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://127.0.0.1:27017/MyMongoDB')
+  .then(() => {
+    console.log('Conexão com o MongoDB estabelecida com sucesso.');
+  })
+  .catch((error) => {
+    console.error('Erro na conexão com o MongoDB:', error);
+  });
+// NOVO
+
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -25,7 +37,7 @@ app.use((req, res, next) => {
 
 app.use('/', appRoutes);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler 
 app.use(function (req, res, next) {
   return res.render('index');
 });

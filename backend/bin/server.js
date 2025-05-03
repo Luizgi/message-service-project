@@ -42,6 +42,11 @@ const onError = error => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
+
+  // NOVO
+  console.log(`Listening on http://localhost:${port}`);
+  // NOVO  
+  
   debug("Listening on " + bind);
 };
 
