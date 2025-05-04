@@ -11,10 +11,37 @@ import { Message } from "../models/message.model";
 })
 export class MessageComponent {
 
-  @Input() messageVarClasse : Message = new Message("", "", "", "");
+  @Input() messageVarClasse: Message = new Message("", "", "", "");
   @Output() outputMessage = new EventEmitter<string>();
 
-  onEdit(){
+  onEdit() {
     this.outputMessage.emit("Text returning: come from (child) to (pai)");
+  }
+
+  onSave() {
+    const messagePayload = {
+      text: this.messageVarClasse.content,
+      sender: this.messageVarClasse.username
+    };
+
+    fetch('http://localhost:3000/api/messages', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(messagePayload)
+    })
+    .then(response => {
+      if (!response.ok) {
+      throw new Error('Failed to save message');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Message saved successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error saving message:', error);
+    });
   }
 }

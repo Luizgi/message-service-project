@@ -1,14 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require('mongoose');
+var appRoutes = require('./routes/app');
+const app = express();
 var path = require('path');
 
-var appRoutes = require('./routes/app');
-
-const app = express();
-
 // NOVO
-const mongoose = require('mongoose');
-
 mongoose.connect('mongodb://127.0.0.1:27017/MyMongoDB')
   .then(() => {
     console.log('Conexão com o MongoDB estabelecida com sucesso.');
@@ -43,4 +40,3 @@ app.use(function (req, res, next) {
 });
 
 module.exports = app;
- 

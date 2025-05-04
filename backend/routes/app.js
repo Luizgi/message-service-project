@@ -1,16 +1,13 @@
 var express = require('express'); 
 var router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.render('index');
-});
+// NOVO
+router.get('/signup', (req, res, next) => {
+    
+})
 
-// NOVO
-router.get('/message', (req, res, next) => {
-    res.json('index');
+router.get('/login', (req, res, next) => {
+    
 });
-// NOVO
 
 module.exports = router; 
-
-  
