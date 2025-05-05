@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
   selector: 'app-feed',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
-  providers: [MessageService],
+  providers: [MessageService, HttpClientModule],  // Add HttpClientModule here
   template: `
     <div class="feed-container">
       <div class="feed-header">
@@ -32,11 +32,13 @@ import { switchMap } from 'rxjs/operators';
       </div>
 
       <div class="message-input">
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
         <input 
           type="text" 
           [(ngModel)]="newMessage" 
           placeholder="Type your message..."
           (keyup.enter)="sendMessage()"
+          maxlength="500"
         >
         <button (click)="sendMessage()">Send</button>
       </div>
@@ -109,12 +111,19 @@ import { switchMap } from 'rxjs/operators';
     button:hover {
       background-color: #0056b3;
     }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-bottom: 8px;
+    }
   `]
 })
 export class FeedComponent implements OnInit, OnDestroy {
   messages: any[] = [];
   newMessage: string = '';
   currentUserId: string = '';
+  errorMessage: string = ''; // Add this property
   private messageSubscription?: Subscription;
 
   constructor(
@@ -171,15 +180,28 @@ export class FeedComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    if (!this.newMessage.trim()) return;
+    // Trim and validate message
+    const messageText = this.newMessage.trim();
+    
+    if (!messageText) {
+      this.errorMessage = 'Message cannot be empty';
+      return;
+    }
 
-    this.messageService.sendMessage(this.newMessage).subscribe({
+    if (messageText.length > 500) {
+      this.errorMessage = 'Message is too long (max 500 characters)';
+      return;
+    }
+
+    this.messageService.sendMessage(messageText).subscribe({
       next: () => {
         this.newMessage = '';
+        this.errorMessage = '';
         this.loadMessages();
       },
       error: (error) => {
         console.error('Error sending message:', error);
+        this.errorMessage = error.error?.erro || 'Failed to send message';
       }
     });
   }
