@@ -1,36 +1,24 @@
-<div class="feed-container">
-    <div class="feed-header">
-      <h2>Message Feed</h2>
-      <button (click)="logout()">Logout</button>
-    </div>
-
-    <div class="messages-list">
-      <div *ngFor="let message of messages" 
-           class="message-item"
-           [ngClass]="{'my-message': message.usuarioId === currentUserId}">
-        <div class="message-content">
-          <p>{{ message.texto }}</p>
-          <small>{{ formatDate(message.data) }}</small>
-          <button *ngIf="message.usuarioId === currentUserId" 
-                    class="delete-btn" 
-                    (click)="deleteMessage(message._id)">
-            🗑️
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="message-input-container">
-      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-      <div class="message-input">
-        <input 
-          type="text" 
-          [(ngModel)]="newMessage" 
-          placeholder="Type your message..."
-          (keyup.enter)="sendMessage()"
-          maxlength="500"
-        >
-        <button (click)="sendMessage()">Send</button>
+<div class="message" *ngFor="let message of messages">
+  <div class="message-header">
+    <div class="message-menu">
+      <button class="menu-button" (click)="toggleMenu(message.id)">⋮</button>
+      <div class="menu-options" *ngIf="openMenuId === message.id && message.user_id === currentUserId">
+        <button (click)="editMessage(message.id, message.content); $event.stopPropagation()">Edit</button>
+        <button (click)="deleteMessage(message.id); $event.stopPropagation()">Delete</button>
       </div>
     </div>
   </div>
+  
+  <div *ngIf="editingMessageId !== message.id">
+    <p>{{ message.content }}</p>
+    <small>{{ formatDate(message.created_at) }}</small>
+  </div>
+  
+  <div *ngIf="editingMessageId === message.id">
+    <textarea [(ngModel)]="editMessageText" maxlength="500"></textarea>
+    <div class="edit-actions">
+      <button (click)="saveEdit(message.id)">Save</button>
+      <button (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+</div>

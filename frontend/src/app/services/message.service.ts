@@ -33,8 +33,12 @@ export class MessageService {
     });
   }
 
-  updateMessage(messageId: string, texto: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/mensagem/${messageId}`, { texto }, {
+  updateMessage(messageId: string, content: string) {
+    return this.http.put(`${this.apiUrl}/messages/${messageId}`, { content });
+  }
+
+  getAllMessages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/mensagens`, {
       headers: this.getHeaders()
     });
   }
