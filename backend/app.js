@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
@@ -19,8 +19,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/MyMongoDB')
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// Add these lines before your routes
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

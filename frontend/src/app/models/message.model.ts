@@ -1,8 +1,6 @@
 export interface Message {
-    id: string;
-    userId: string;
-    userName: string;
-    userAvatar: string;
-    content: string;
-    timestamp: Date;
-  }
+  _id: string;
+  usuarioId: string;
+  texto: string;
+  data: Date;
+}

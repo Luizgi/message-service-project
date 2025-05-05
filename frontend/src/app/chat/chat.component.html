@@ -1,0 +1,32 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>Chat</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+  <div class="messages-container">
+    <div *ngFor="let message of messages" class="message" [ngClass]="{'my-message': message.usuarioId === userId}">
+      <div class="message-content">
+        <p>{{ message.texto }}</p>
+        <span class="message-time">{{ formatDate(message.data) }}</span>
+        <button *ngIf="message.usuarioId === userId" 
+                class="delete-btn" 
+                (click)="deleteMessage(message._id)">
+          🗑️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-input">
+    <input type="text" 
+           [(ngModel)]="newMessage" 
+           (keyup.enter)="sendMessage()"
+           placeholder="Type a message...">
+    <button (click)="sendMessage()">Send</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>

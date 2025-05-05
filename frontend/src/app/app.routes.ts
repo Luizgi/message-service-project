@@ -1,26 +1,11 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
-  { 
-    path: '', 
-    loadComponent: () => import('./pages/landing/landing.component').then(m => m.LandingComponent)
-  },
-  { 
-    path: 'signup', 
-    loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent) 
-  },
-  { 
-    path: 'login', 
-    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) 
-  },
-  { 
-    path: 'feed', 
-    loadComponent: () => import('./pages/feed/feed.component').then(m => m.FeedComponent),
-    canActivate: [authGuard]
-  },
-  { 
-    path: '**', 
-    redirectTo: '' 
-  }
+  { path: '', component: SignupComponent },
+  { path: 'signup', component: SignupComponent },   
+  { path: 'login', component: LoginComponent },
+  { path: 'chat', component: ChatComponent }
 ];
