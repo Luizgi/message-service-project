@@ -1,13 +1,10 @@
-var express = require('express'); 
-var router = express.Router();
+const express = require('express');
+const mongoose = require('mongoose');
+const UserRoutes = require('./UserRoutes');
+const MessageRouter = require('./MessageRouter')
 
-// NOVO
-router.get('/signup', (req, res, next) => {
-    
-})
-
-router.get('/login', (req, res, next) => {
-    
-});
-
-module.exports = router; 
+const router = express.Router();
+router.use(express.json());
+router.use(UserRoutes)
+router.use(MessageRouter)
+module.exports = router;
