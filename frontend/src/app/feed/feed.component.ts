@@ -1,129 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MessageService } from '../services/message.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-feed',
+  templateUrl: './feed.component.html',
+  styleUrl: './feed.component.css',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
-  providers: [MessageService, HttpClientModule],  // Add HttpClientModule here
-  template: `
-    <div class="feed-container">
-      <div class="feed-header">
-        <h2>Message Feed</h2>
-        <button (click)="logout()">Logout</button>
-      </div>
-
-      <div class="messages-list">
-        <div *ngFor="let message of messages" class="message-item">
-          <div class="message-content">
-            <p>{{ message.texto }}</p>
-            <small>{{ formatDate(message.data) }}</small>
-          </div>
-          <div class="message-actions" *ngIf="message.usuarioId === currentUserId">
-            <button (click)="deleteMessage(message._id)">Delete</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="message-input">
-        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-        <input 
-          type="text" 
-          [(ngModel)]="newMessage" 
-          placeholder="Type your message..."
-          (keyup.enter)="sendMessage()"
-          maxlength="500"
-        >
-        <button (click)="sendMessage()">Send</button>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .feed-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .feed-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .messages-list {
-      height: calc(100vh - 200px);
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .message-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 10px;
-      margin: 5px 0;
-      background-color: #f5f5f5;
-      border-radius: 5px;
-    }
-
-    .message-content {
-      flex-grow: 1;
-    }
-
-    .message-content small {
-      color: #666;
-      display: block;
-      margin-top: 5px;
-    }
-
-    .message-input {
-      margin-top: 20px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .message-input input {
-      flex-grow: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      padding: 8px 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .error-message {
-      color: #dc3545;
-      font-size: 0.875rem;
-      margin-bottom: 8px;
-    }
-  `]
+  providers: [MessageService, HttpClientModule]
 })
 export class FeedComponent implements OnInit, OnDestroy {
   messages: any[] = [];
   newMessage: string = '';
   currentUserId: string = '';
-  errorMessage: string = ''; // Add this property
+  errorMessage: string = '';
   private messageSubscription?: Subscription;
 
   constructor(
@@ -182,7 +78,7 @@ export class FeedComponent implements OnInit, OnDestroy {
   sendMessage() {
     // Trim and validate message
     const messageText = this.newMessage.trim();
-    
+
     if (!messageText) {
       this.errorMessage = 'Message cannot be empty';
       return;

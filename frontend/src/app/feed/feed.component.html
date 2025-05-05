@@ -1,0 +1,36 @@
+<div class="feed-container">
+    <div class="feed-header">
+      <h2>Message Feed</h2>
+      <button (click)="logout()">Logout</button>
+    </div>
+
+    <div class="messages-list">
+      <div *ngFor="let message of messages" 
+           class="message-item"
+           [ngClass]="{'my-message': message.usuarioId === currentUserId}">
+        <div class="message-content">
+          <p>{{ message.texto }}</p>
+          <small>{{ formatDate(message.data) }}</small>
+          <button *ngIf="message.usuarioId === currentUserId" 
+                    class="delete-btn" 
+                    (click)="deleteMessage(message._id)">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-input-container">
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="message-input">
+        <input 
+          type="text" 
+          [(ngModel)]="newMessage" 
+          placeholder="Type your message..."
+          (keyup.enter)="sendMessage()"
+          maxlength="500"
+        >
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
