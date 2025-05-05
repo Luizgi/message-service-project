@@ -70,8 +70,7 @@
               "buildTarget": "frontend:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {"proxyConfig": "proxy.conf.json"}
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -100,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "8ca324af-6842-4a11-ac61-3fbdb39605ab"
+    "analytics": "fa55c906-72b8-4038-9749-c6920fe0ea04"
   }
 }

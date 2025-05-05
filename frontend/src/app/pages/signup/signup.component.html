@@ -1,0 +1,155 @@
+<div class="signup-container">
+    <div class="form-card">
+      <h1 class="form-title">Create Your Account</h1>
+      <p class="form-subtitle">Join the Zappy community today!</p>
+      
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <!-- Avatar Upload Section -->
+        <div class="avatar-upload">
+          <div 
+            class="avatar-preview" 
+            [style.backgroundImage]="avatarPreview ? 'url(' + avatarPreview + ')' : ''"
+            [class.has-avatar]="avatarPreview"
+          >
+            <span *ngIf="!avatarPreview">Upload Photo</span>
+          </div>
+          <input 
+            type="file" 
+            id="avatar" 
+            accept="image/*" 
+            (change)="onFileSelected($event)"
+            hidden
+          >
+          <label for="avatar" class="upload-btn">Choose Photo</label>
+        </div>
+        
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name"
+            placeholder="Enter your full name"
+          >
+          <div class="error-message" *ngIf="formControls.name.invalid && (formControls.name.dirty || formControls.name.touched)">
+            <span *ngIf="formControls.name.errors?.['required']">Name is required</span>
+            <span *ngIf="formControls.name.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
+        </div>
+        
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email"
+            placeholder="Enter your email address"
+          >
+          <div class="error-message" *ngIf="formControls.email.invalid && (formControls.email.dirty || formControls.email.touched)">
+            <span *ngIf="formControls.email.errors?.['required']">Email is required</span>
+            <span *ngIf="formControls.email.errors?.['email']">Enter a valid email address</span>
+          </div>
+        </div>
+        
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password"
+            placeholder="Create a password"
+          >
+          <div class="error-message" *ngIf="formControls.password.invalid && (formControls.password.dirty || formControls.password.touched)">
+            <span *ngIf="formControls.password.errors?.['required']">Password is required</span>
+            <span *ngIf="formControls.password.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
+        </div>
+        
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            formControlName="confirmPassword"
+            placeholder="Confirm your password"
+          >
+          <div class="error-message" *ngIf="formControls.confirmPassword.invalid && (formControls.confirmPassword.dirty || formControls.confirmPassword.touched)">
+            <span *ngIf="formControls.confirmPassword.errors?.['required']">Please confirm your password</span>
+            <span *ngIf="formControls.confirmPassword.errors?.['mismatch']">Passwords do not match</span>
+          </div>
+        </div>
+        
+        <!-- Gender Selection (Radio Buttons) -->
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="male" value="male" formControlName="gender">
+              <label for="male">Male</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="female" value="female" formControlName="gender">
+              <label for="female">Female</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="other" value="other" formControlName="gender">
+              <label for="other">Other</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="prefer-not-to-say" value="prefer-not-to-say" formControlName="gender">
+              <label for="prefer-not-to-say">Prefer not to say</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Country Selection (Combobox) -->
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select id="country" formControlName="country">
+            <option value="" disabled>Select your country</option>
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+          <div class="error-message" *ngIf="formControls.country.invalid && (formControls.country.dirty || formControls.country.touched)">
+            <span *ngIf="formControls.country.errors?.['required']">Country is required</span>
+          </div>
+        </div>
+        
+        <!-- Interests (Checkboxes) -->
+        <div class="form-group">
+          <label>Interests (select at least one)</label>
+          <div class="checkbox-group" formArrayName="interests">
+            <div class="checkbox-option" *ngFor="let interest of interests; let i = index">
+              <input 
+                type="checkbox" 
+                [id]="'interest-' + i" 
+                [value]="interest" 
+                (change)="onInterestChange($event)"
+              >
+              <label [for]="'interest-' + i">{{ interest }}</label>
+            </div>
+          </div>
+          <div class="error-message" *ngIf="interestsInvalid && interestsTouched">
+            Please select at least one interest
+          </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="submit-btn" 
+          [disabled]="signupForm.invalid || isSubmitting"
+        >
+          <span *ngIf="!isSubmitting">Create Account</span>
+          <span *ngIf="isSubmitting">Creating Account...</span>
+        </button>
+        
+        <div class="form-footer">
+          Already have an account? <a routerLink="/login">Sign in</a>
+        </div>
+      </form>
+    </div>
+  </div>

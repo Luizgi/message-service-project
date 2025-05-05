@@ -1,0 +1,29 @@
+<div class="feed-container">
+    <div class="feed-header">
+      <h1>Your Feed</h1>
+      <p>Share your thoughts with the Zappy community!</p>
+    </div>
+    
+    <app-message-form (send)="sendMessage($event)"></app-message-form>
+    
+    <div class="feed-content">
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading messages...</p>
+      </div>
+      
+      <div *ngIf="!isLoading && messages.length === 0" class="empty-state">
+        <p>No messages yet. Be the first to post!</p>
+      </div>
+      
+      <ng-container *ngIf="!isLoading && messages.length > 0">
+        <app-message-card 
+          *ngFor="let message of messages" 
+          [message]="message"
+          (update)="updateMessage($event)"
+          (delete)="deleteMessage($event)"
+        ></app-message-card>
+      </ng-container>
+    </div>
+  </div>
+  

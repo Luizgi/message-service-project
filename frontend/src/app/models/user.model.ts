@@ -1,13 +1,20 @@
-export class User{
-  email: string;
-  password: string;
-  firstname?: string;
-  lastname?: string;
-
-  constructor(email: string, password: string, firstname?: string, lastname?: string){
-    this.email = email;
-    this.password = password;
-    this.firstname = firstname;
-    this.lastname = lastname;
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    gender: 'male' | 'female' | 'other' | 'prefer-not-to-say';
+    country: string;
+    interests: string[];
   }
-}
+  
+  export interface SignupForm extends Omit<User, 'id'> {
+    password: string;
+    confirmPassword: string;
+    avatarFile?: File;
+  }
+  
+  export interface LoginForm {
+    email: string;
+    password: string;
+  }

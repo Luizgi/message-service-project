@@ -1,16 +1,8 @@
-export class Message {
-  messageId: string;
-  content: string;
-  userId: string;
-  username: string;
-
-
-  constructor(messageId: string, content: string, userId: string, username: string)
-  {
-    this.messageId = messageId;
-    this.content = content;
-    this.userId = userId;
-    this.username = username;
+export interface Message {
+    id: string;
+    userId: string;
+    userName: string;
+    userAvatar: string;
+    content: string;
+    timestamp: Date;
   }
-}
-
