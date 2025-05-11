@@ -226,3 +226,29 @@
 .cancel-btn:hover {
   background-color: #ffcdd2 !important;
 }
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  border: 2px solid #128c7e;
+}
+
+.my-message .user-avatar {
+  border-color: #25d366;
+}
+
+.user-name {
+  margin: 0;
+  font-weight: 500;
+  color: #128c7e;
+}

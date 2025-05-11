@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   userId: string = '';
   errorMessage: string = '';
   userNames: Map<string, string> = new Map();
+  userAvatars: Map<string, string> = new Map();
 
   constructor(
     private chatService: ChatService,
@@ -80,6 +81,21 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  getUserAvatar(userId: string): string {
+    if (!this.userAvatars.has(userId)) {
+      this.chatService.getUserInfo(userId).subscribe({
+        next: (user) => {
+          this.userAvatars.set(userId, user.foto || 'assets/default-avatar.png');
+        },
+        error: (error) => {
+          console.error('Erro ao carregar foto do usuário:', error);
+          this.userAvatars.set(userId, 'assets/default-avatar.png');
+        }
+      });
+      return 'assets/default-avatar.png';
+    }
+    return this.userAvatars.get(userId) || 'assets/default-avatar.png';
+  }
   sendMessage() {
     if (!this.newMessage.trim()) return;
 

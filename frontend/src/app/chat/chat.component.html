@@ -7,7 +7,13 @@
   <div class="messages-container">
     <div *ngFor="let message of messages" class="message" [ngClass]="{'my-message': message.usuarioId === userId}">
       <div class="message-content">
-        <p class="user-name">{{ getUserName(message.usuarioId) }}</p>
+        <div class="message-header">
+          <img [src]="getUserAvatar(message.usuarioId)" 
+               alt="Avatar do usuário" 
+               class="user-avatar"
+               onerror="this.src='assets/default-avatar.png'">
+          <p class="user-name">{{ getUserName(message.usuarioId) }}</p>
+        </div>
         <p *ngIf="!message.isEditing">{{ message.texto }}</p>
         <div *ngIf="message.isEditing" class="edit-input-container">
           <input type="text" [(ngModel)]="message.editText" [value]="message.texto">
