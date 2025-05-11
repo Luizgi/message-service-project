@@ -105,6 +105,17 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  editMessage(id: string, newContent: string) {
+    this.chatService.editMessage(id, newContent).subscribe({
+      next: () => {
+        this.loadMessages();
+      },
+      error: (error) => {
+        this.errorMessage = error.error.erro || 'Error editing message';
+      }
+    });
+  }
+
   formatDate(date: Date): string {
     return new Date(date).toLocaleString();
   }
@@ -112,5 +123,31 @@ export class ChatComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/']);
+  }
+
+  startEdit(message: Message) {
+    message.isEditing = true;
+    message.editText = message.texto;
+  }
+
+  cancelEdit(message: Message) {
+    message.isEditing = false;
+    message.editText = '';
+  }
+
+  saveEdit(message: Message) {
+    if (!message.editText || message.editText.trim() === '') {
+      return;
+    }
+
+    this.chatService.editMessage(message._id, message.editText).subscribe({
+      next: () => {
+        message.isEditing = false;
+        this.loadMessages();
+      },
+      error: (error) => {
+        this.errorMessage = error.error.erro || 'Erro ao editar mensagem';
+      }
+    });
   }
 }

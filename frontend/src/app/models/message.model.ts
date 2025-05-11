@@ -3,4 +3,6 @@ export interface Message {
   usuarioId: string;
   texto: string;
   data: Date;
+  isEditing?: boolean;
+  editText?: string;
 }

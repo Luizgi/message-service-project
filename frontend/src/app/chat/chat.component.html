@@ -8,13 +8,20 @@
     <div *ngFor="let message of messages" class="message" [ngClass]="{'my-message': message.usuarioId === userId}">
       <div class="message-content">
         <p class="user-name">{{ getUserName(message.usuarioId) }}</p>
-        <p>{{ message.texto }}</p>
+        <p *ngIf="!message.isEditing">{{ message.texto }}</p>
+        <div *ngIf="message.isEditing" class="edit-input-container">
+          <input type="text" [(ngModel)]="message.editText" [value]="message.texto">
+          <div class="edit-buttons">
+            <button (click)="saveEdit(message)" class="save-btn">Salvar</button>
+            <button (click)="cancelEdit(message)" class="cancel-btn">Cancelar</button>
+          </div>
+        </div>
         <span class="message-time">{{ formatDate(message.data) }}</span>
-        <button *ngIf="message.usuarioId === userId" 
-                class="delete-btn" 
-                (click)="deleteMessage(message._id)">
-          🗑️
-        </button>
+        
+        <div class="message-buttons">
+          <button (click)="deleteMessage(message._id)" class="delete-btn">Apagar mensagem</button>
+          <button (click)="startEdit(message)" class="edit-btn">Editar mensagem</button>
+        </div>
       </div>
     </div>
   </div>
