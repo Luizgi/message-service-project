@@ -7,6 +7,7 @@
   <div class="messages-container">
     <div *ngFor="let message of messages" class="message" [ngClass]="{'my-message': message.usuarioId === userId}">
       <div class="message-content">
+        <p class="user-name">{{ getUserName(message.usuarioId) }}</p>
         <p>{{ message.texto }}</p>
         <span class="message-time">{{ formatDate(message.data) }}</span>
         <button *ngIf="message.usuarioId === userId" 

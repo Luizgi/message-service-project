@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit {
   newMessage: string = '';
   userId: string = '';
   errorMessage: string = '';
+  userNames: Map<string, string> = new Map();
 
   constructor(
     private chatService: ChatService,
@@ -42,12 +43,39 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessages().subscribe({
       next: (messages) => {
         this.messages = messages;
+        // Carregar os nomes dos usuários para cada mensagem
+        messages.forEach(message => {
+          if (!this.userNames.has(message.usuarioId)) {
+            this.chatService.getUserInfo(message.usuarioId).subscribe({
+              next: (user) => {
+                this.userNames.set(message.usuarioId, user.nome);
+              },
+              error: (error) => {
+                console.error('Erro ao carregar informações do usuário:', error);
+                this.userNames.set(message.usuarioId, 'Usuário desconhecido');
+              }
+            });
+          }
+        });
       },
       error: (error) => {
         console.error('Error loading messages:', error);
         if (error.status === 401) {
           this.router.navigate(['/login']);
         }
+      }
+    });
+  }
+
+  getUserName(userId: string): string  {
+    return this.userNames.get(userId) || 'Loading...';
+    this.chatService.getUserInfo(userId).subscribe({
+      next: (user) => {
+        this.userNames.set(userId, user.nome);
+      },
+      error: (error) => {
+        console.error('Erro ao carregar informações do usuário:', error);
+        this.userNames.set(userId, 'Usuário desconhecido');
       }
     });
   }
@@ -81,7 +109,6 @@ export class ChatComponent implements OnInit {
     return new Date(date).toLocaleString();
   }
 
-  // Add this new method
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/']);

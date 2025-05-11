@@ -73,4 +73,19 @@ router.get('/usuario', autenticarUsuario, async (req, res) => {
     }
 });
 
+router.get('/usuario/:id', async (req, res) => {
+    try {
+        const usuario = await Usuario.findById(req.params.id).select('nome foto'); // Busca nome e foto
+
+        if (!usuario) {
+            return res.status(404).json({ erro: 'Usuário não encontrado!' });
+        }
+
+        res.json(usuario);
+    }    
+    catch (error) {
+        res.status(500).json({ erro: 'Erro ao buscar perfil do usuário!' });
+    }
+});
+
 module.exports = router;

@@ -37,4 +37,10 @@ export class ChatService {
       headers: this.getHeaders()
     });
   }
+
+  getUserInfo(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/usuario/${userId}`, {
+      headers: this.getHeaders()
+    });
+  }
 }
